@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../static/css/index.css">
+    </head>
+    <body>
+        <header>
+            <h2>Welcome to the Casting Agency</h2>
+            <button id="login">Login</button>
+            <button id="logout">Logout</button>
+        </header>
+        <aside>
+            <button type="'button" name="add-movie">Add movie</button>
+            <button type="'button" name="add-actor">Add actor</button>
+            <div id="profile"></div>
+        </aside>
+        <main>
+            <div class="new-movie disabled">
+                <h3>Add new Movie</h3>
+                <form action="/add_movie" method="POST">
+                    <label for="movie-title">Movie title:</label>
+                    <input type="text" id="movie-title" name="movie-title"><br><br>
+                    <label for="release-date">Release date:</label>
+                    <input type="date" id="release-date" name="release-date"><br><br>
+                    <button type="submit" name="submit-movie">Add movie</button>
+                </form>
+            </div>
+            <div class="new-actor disabled">
+                <h3>Add new Actor</h3>
+                <form action="/add_actor" method="POST">
+                    <label for="actor-name">Actor's name:</label>
+                    <input type="text" id="actor-name" name="actor-name"><br><br>
+                    <label for="actor-age">Age:</label>
+                    <input type="number" id="actor-age" name="actor-age"><br><br>
+                    <label for="actor-gender">Gender:</label>
+                    <select name="actor-gender" id="actor-gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <div id="movie-starred disabled">
+                        <label for="movie-starred">Movies actor appears in:</label>
+                        <select name="movie-starred" id="movie-starred-select" multiple>
+                        </select>
+                    </div><br><br>
+                    <button type="submit" name="submit-actor">Add actor</button>
+                </form>
+            </div>
+            <div class="list-movies"><h3>List of Movies</h3></div>
+            <div class="list-actors"><h3>List of Actors</h3></div>
+        </main>
+        <script src="https://cdn.auth0.com/js/auth0-spa-js/1.20/auth0-spa-js.production.js"></script>
+        <script type="module" src="../static/js/index.js"></script>
+    </body>
+</html>

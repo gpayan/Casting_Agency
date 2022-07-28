@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <h2>Add Movie</h2>
+
+        <form action="/add_movie" method="POST">
+            <label for="mtitle">Title of movie:</label>
+            <input type="text" id="mtitle" name="mtitle"><br><br>
+            <label for="rdate">Release date:</label>
+            <input type="date" id="rdate" name="rdate"><br><br>
+            <input type="submit" value="Add movie">
+        </form>
+
+        <script>
+            const subButton = document.querySelector('input[type="submit"]');
+            subButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const movieTitle = document.getElementById('mtitle').value;
+                const releaseDate = document.getElementById('rdate').value;
+                console.log('Il a clicke!');
+                console.log(movieTitle);
+                console.log(releaseDate);
+
+                const response = fetch('/add_movie', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      title: movieTitle,
+                      release_date: releaseDate 
+                    })
+                })
+                .then( res => {
+                    return res.json();
+                })
+                .then( final => {
+                    console.log(final)
+                })
+
+            })
+        </script>
+
+    </body>
+</html>
