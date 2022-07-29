@@ -1,5 +1,6 @@
-from flaskcast import db
-
+#from flaskcast import db
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
 class Actor(db.Model):
     __tablename__ = 'actors'
@@ -59,6 +60,9 @@ class Movie(db.Model):
 
     def delete(self):
         db.session.delete(self)
+        db.session.commit()
+    
+    def update(self):
         db.session.commit()
 
     def format(self):

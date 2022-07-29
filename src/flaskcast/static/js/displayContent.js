@@ -63,7 +63,7 @@ export function updateActorData(actorData, divActorId, moviesList, gendersList){
     newDivForm.append(nameInput);
 
     const ageInput = document.createElement('input');
-    ageInput.setAttribute('number', 'text');
+    ageInput.setAttribute('type', 'number');
     ageInput.setAttribute('id', 'updated-age');
     ageInput.setAttribute('name', 'updated-age');
     ageInput.value = actorData.age;
@@ -107,4 +107,69 @@ export function updateActorData(actorData, divActorId, moviesList, gendersList){
     console.log('newDivForm', newDivForm);
 
     return updateButton;
+}
+
+function formatDate(date) {
+    const date_temp = new Date(date);
+    let day = date_temp.getDate().toString();
+    let month = (date_temp.getMonth() + 1).toString();
+    const year = date_temp.getFullYear().toString();
+
+    if (day.length < 2) {
+        day = '0' + day;
+    }
+
+    if (month.length < 2) {
+        month = '0' + month;
+    }
+
+    return [year, month, day].join('-')
+}
+
+export function updateMovieData(movieData, divMovieId, actorsList){
+
+    console.log('In updateMovieData');
+
+    const newDivForm = document.createElement('div');
+    newDivForm.classList.add('update-movie-entry');
+    
+    const titleInput = document.createElement('input');
+    titleInput.setAttribute('type', 'text');
+    titleInput.setAttribute('id', 'updated-title');
+    titleInput.setAttribute('name', 'updated-title');
+    titleInput.value = movieData.title;
+    newDivForm.append(titleInput);
+
+    const releaseDateInput = document.createElement('input');
+    releaseDateInput.setAttribute('type', 'date');
+    releaseDateInput.setAttribute('id', 'updated-release-date');
+    releaseDateInput.setAttribute('name', 'updated-release-date');
+
+    releaseDateInput.value = formatDate(movieData.release_date);
+    newDivForm.append(releaseDateInput);
+    
+    const updatedCastInput = document.createElement('select');
+    updatedCastInput.setAttribute('id', 'cast-select-updated');
+    updatedCastInput.multiple = true;
+
+    for (let actor of actorsList) {
+        const optionActor = document.createElement('option');
+        optionActor.setAttribute('value', actor.id);
+        optionActor.innerText = actor.name;
+        if (movieData.movie_cast.includes(actor.id)){
+            optionActor.selected = true;
+        }
+        updatedCastInput.append(optionActor);
+    }
+    newDivForm.append(updatedCastInput);
+
+    const updateMovieButton = document.createElement('button');
+    updateMovieButton.setAttribute('name', 'confirm-update');
+    updateMovieButton.setAttribute('data-id', movieData.id);
+    updateMovieButton.innerText = 'Update movie entry';
+    newDivForm.append(updateMovieButton);
+
+    divMovieId.append(newDivForm);
+
+    return updateMovieButton;
 }

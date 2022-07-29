@@ -1,4 +1,4 @@
-import { displayActors, displayMovies, updateActorData } from './displayContent.js';
+import { displayActors, displayMovies, updateActorData, updateMovieData } from './displayContent.js';
 
 const newMovButton = document.querySelector('button[name="add-movie"]');
 const newActButton = document.querySelector('button[name="add-actor"]');
@@ -27,7 +27,8 @@ subMovieButton.addEventListener('click', async (e) => {
     const responseMovieObj = await fetch('/add_movie', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer' + ' ' + localStorage.getItem('jwt')
         },
         body: JSON.stringify({
           title: movieTitle,
@@ -117,8 +118,81 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         });
     }
 
+    const updateMovieButtons = document.querySelectorAll('button[name="update-movie-button"]');
+    for (let i=0; i<updateMovieButtons.length; i++){
+        updateMovieButtons[i].addEventListener('click', async (e) => {
+            
+            if (document.querySelector('.update-movie-entry')){
+                document.querySelector('.update-movie-entry').remove();
+            } else {
+                const resultMovieObj = await fetch('/movies/' + e.target.dataset.id, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer' + ' ' + localStorage.getItem('jwt')
+                    }
+                });
+                const movieData = await resultMovieObj.json();
+                console.log('WE GOT MOVIE DATA', movieData);
+
+                const listActorsObj = await fetch('/actors', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer' + ' ' + localStorage.getItem('jwt')
+                    }
+                });
+
+                const listActors = await listActorsObj.json();
+                const divMovieId = document.querySelector('div.movie-details[data-id="' + movieData.id +'"]');
+                const confirmUpdateMovieButton = updateMovieData(movieData, divMovieId, listActors['list_actors']);
+
+                confirmUpdateMovieButton.addEventListener('click', async (e) => {
+                    const movieUpdatedTitle = document.getElementById('updated-title').value;
+                    const movieUpdatedReleaseDate = document.getElementById('updated-release-date').value;
+                    const movieCastUpdated = document.getElementById('cast-select-updated');
+                
+                    const updatedMovieCast = []
+                    for (const actorOptionUpdated of movieCastUpdated.options){
+                        if (actorOptionUpdated.selected){
+                            updatedMovieCast.push(actorOptionUpdated.value);
+                        }
+                    }
+                    
+                    const respUpdateObj = await fetch('/movies/' + e.target.dataset.id, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer' + ' ' + localStorage.getItem('jwt')
+                        },
+                        body: JSON.stringify({
+                            id: e.target.dataset.id,
+                            title: movieUpdatedTitle,
+                            release_date: movieUpdatedReleaseDate,
+                            movie_cast: updatedMovieCast
+                        })
+                    });
+
+                    const respUpdate = await respUpdateObj.json();
+
+                    if(respUpdate['Success'] === true){
+                        const updateMovieEntryDiv = document.querySelector('.update-movie-entry');
+                        updateMovieEntryDiv.remove();
+                    }
+                });
+            }
+        });
+    }
+
+    /* We display the list of actors on the main page */
     const divListActors = document.querySelector('.list-actors');
-    const listActorsObj = await fetch('/actors');
+    const listActorsObj = await fetch('/actors', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer' + ' ' + localStorage.getItem('jwt')
+        }
+    });
     const listActors = await listActorsObj.json();
     const actors = listActors['list_actors'];
 
@@ -168,7 +242,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer QQ'
+                        'Authorization': 'Bearer' + ' ' + localStorage.getItem('jwt')
                     }
                 });
 
@@ -186,8 +260,6 @@ window.addEventListener('DOMContentLoaded', async (e) => {
                 const moviesList = await moviesListObj.json();
 
                 const divActorId = document.querySelector('div.actor-details[data-id="' + actorData.id +'"]');
-                console.log('in Index divActorId', divActorId);
-                console.log('GENDERSLIST IS:', gendersList);
                 const confirmUpdateButton = updateActorData(actorData, divActorId, moviesList['list_movies'], gendersList);
 
                 confirmUpdateButton.addEventListener('click', async (e) => {

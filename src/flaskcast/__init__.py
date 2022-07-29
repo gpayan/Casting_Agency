@@ -1,13 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flaskcast.models import db
 
-app = Flask(__name__)
+app = Flask(__name__) #creates application object as an instance of class Flask
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://gpayan@localhost:5432/casting_agency'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
+db.init_app(app)
 
 migrate = Migrate(app, db)
 

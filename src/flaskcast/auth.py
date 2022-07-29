@@ -47,7 +47,7 @@ def get_token_auth_header():
 
     token = authorization_header_parts[1]
 
-    print('TOKEN IS:', token)
+    #print('TOKEN IS:', token)
     return token
 
 
@@ -118,6 +118,7 @@ def verify_decode_jwt(token):
 
 
 def check_permissions(permission, payload):
+
     if 'permissions' not in payload:
         raise AuthError({
             'code': 'invalid_claims',
