@@ -15,9 +15,15 @@ def index():
 @requires_auth('get:movies')
 def get_movies(payload):
     movies = Movie.query.order_by('title').all()
+
+    if len(movies) == 0:
+        abort(404)
+
     list_movies = [movie.format() for movie in movies]
+
     return jsonify({
-        'list_movies': list_movies
+        'list_movies': list_movies,
+        'movies_count': len(list_movies)
     })
 
 
@@ -25,11 +31,14 @@ def get_movies(payload):
 @requires_auth('post:movies')
 def add_movie(payload):
     data = request.get_json()
-    movie_title = data.get('title')
-    release_date = data.get('release_date')
+    movie_title = data.get('title', None)
+    release_date = data.get('release_date', None)
     actors = data.get('actors', '')
 
     print('Release date', release_date)
+
+    if (movie_title == None or release_date == None):
+        abort(400)
 
     new_movie = Movie(
         title = movie_title,
@@ -101,9 +110,26 @@ def delete_movie(payload, movie_id):
 
     return jsonify({
         'Success': True,
-        'movie_id': movie_id,
+        'movie_id': movie_to_delete.id,
         'movies_list': movies_list,
         'movies_count': len(movies_list)
+    })
+
+
+@app.route('/movies/<int:movie_id>/actors', methods=['GET'])
+def get_movie_cast(movie_id):
+    movie = Movie.query.filter_by(id=movie_id).one_or_none()
+
+    if movie is None:
+        abort(404)
+
+    film_cast = movie.actors
+    film_cast_list = [actor.format() for actor in film_cast]
+
+    return jsonify({
+        'success': True,
+        'movie_id': movie_id,
+        'film_cast_list': film_cast_list
     })
 
 
@@ -111,14 +137,18 @@ def delete_movie(payload, movie_id):
 @requires_auth('get:actors')
 def get_actors(payload):
     actors = Actor.query.order_by('name').all()
+
+    if len(actors) == 0:
+        abort(404)
+
     actors_list = [actor.format() for actor in actors]
 
-    movies = Movie.query.order_by('title').all()
-    movies_list = [movie.format() for movie in movies]
+    #movies = Movie.query.order_by('title').all()
+    #movies_list = [movie.format() for movie in movies]
 
     return jsonify({
         'list_actors': actors_list,
-        'list_movies': movies_list
+        'actors_count': len(actors_list)
     })
 
 
@@ -168,7 +198,7 @@ def delete_actor(payload, actor_id):
     try:
         actor_to_delete.delete()
     except Exception as e:
-        print(e)
+        print('Issue deleting actor form database', e)
 
     actors = Actor.query.order_by('name').all()
     actors_list = [actor.format() for actor in actors]
@@ -222,6 +252,23 @@ def update_actor(payload, actor_id):
             'starred_movies': id_movie_list
         })
 
+
+@app.route('/actors/<int:actor_id>/movies')
+def get_filmography(actor_id):
+
+    actor = Actor.query.filter_by(id=actor_id).one_or_none()
+
+    if actor is None:
+        abort(404)
+
+    filmography = actor.cast
+    list_of_movies = [film.format() for film in filmography]
+
+    return jsonify({
+        'success': True,
+        'actor_id': actor_id,
+        'list_of_movies': list_of_movies,
+    })
 
 @app.errorhandler(AuthError)
 def handler_for_autherror(error):

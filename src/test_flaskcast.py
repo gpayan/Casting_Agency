@@ -4,11 +4,19 @@ from flask_sqlalchemy import SQLAlchemy
 from flaskcast import app
 from flaskcast.models import db, Actor, Movie
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+#DB_PATH = os.getenv('DB_PATH')
+JWT_CAST_ASSISTANT = os.getenv('JWT_CAST_ASSISTANT')
+JWT_CAST_DIRECTOR = os.getenv('JWT_CAST_DIRECTOR')
+JWT_EXEC_PRODUCER = os.getenv('JWT_EXEC_PRODUCER')
 
 DB_PATH = "postgresql://gpayan@localhost:5432/casting_agency_test"
-JWT_CAST_ASSISTANT = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjBRRmt5TjFCaFN4NzhoekxJOEJvMSJ9.eyJpc3MiOiJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjJkZDFlZTJlNTE4ZWJiNjc3NWViODVkIiwiYXVkIjpbImNhc3RpbmdhZ2VuY3kiLCJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU5MDI0NzUzLCJleHAiOjE2NTkxMTExNTMsImF6cCI6ImJxYjdSTnJ5OWx4ajB1eGN1eHloTlVnU2RPdzlKVExEIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIl19.jkpOAlDZeAzCtBCTaKTwgTWzLUALQ3Zy9yT-Mmxb59kO_cUzbtxMmyMWEh4eBGXLuoGz2QFzRB71AhFO7B7T0-OC2immotQP0F767E2OS_GIFOjhRSSzT95Jr2u_NMP_JF4ESTMpHJIBicgw7L0A9lIaSop83L1lUpbScGGJethxBNki0aADDezLhuCtCuIz5vAkmdtDuOwZWJa7faH_TLlmmoqa5_CRZh_ejpV_0GMNKTQT1a2WLv_eUTncKBwO2YiVS9MKGxbL-IHgGR_dBrkb7EB9cE3mGLf0Rt2oDJJdD1ibDZSndAIwG4zI1zxBq905T57Uuxa6VZxhADWyLg'
-JWT_CAST_DIRECTOR = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjBRRmt5TjFCaFN4NzhoekxJOEJvMSJ9.eyJpc3MiOiJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjJlMmI4MWNlYTQ4Mzk4NzQyMmRlZTMyIiwiYXVkIjpbImNhc3RpbmdhZ2VuY3kiLCJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU5MDI2MTY3LCJleHAiOjE2NTkxMTI1NjcsImF6cCI6ImJxYjdSTnJ5OWx4ajB1eGN1eHloTlVnU2RPdzlKVExEIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInBvc3Q6YWN0b3JzIl19.itvqGKDcjhx8KKGIN3kc5L0s-v-YYwqY83_TESGUoQKl9-pmIWjmBI8ezptAmKI2vbQKeEXTi39GcG-meyc5Qg5xRHyj0HZktLXd7VsE1XxOFmoxOFdTzy3tQzKzl0V3NGYzoik-Zy4-P7_lYpDrBS7K1eGHX156ANmbCFH8XChmBbMMrdFl6RxqmsmV5JerctZLG0o4XMg1FUPiqmqlN6lYWOmUHpP_rfWAHsvoKlv0Yo_Xny0vzUCD9A-RD3kp4DXxJ89L5Zpx_mMLiTv4QQK_YwglUke_TLSvdjxm5mhmlsMVm2_w3L-f30ODL6RQ9yHrbTl9ciPElblBIc0Hww'
-JWT_EXEC_PRODUCER = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjBRRmt5TjFCaFN4NzhoekxJOEJvMSJ9.eyJpc3MiOiJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjJlM2Y0ZmZiMzEwNzRjZTg0OGFkMjcxIiwiYXVkIjpbImNhc3RpbmdhZ2VuY3kiLCJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU5MTA2NzIxLCJleHAiOjE2NTkxOTMxMjEsImF6cCI6ImJxYjdSTnJ5OWx4ajB1eGN1eHloTlVnU2RPdzlKVExEIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJwb3N0OmFjdG9ycyIsInBvc3Q6bW92aWVzIl19.DBEZN6vqkCv4W05fXkZFCEXVGQhj64aQV95mOZQoA2wVESS-xe-Pq0CJilhK_nILJGwca7wIbSLMCvFkFYpwJOsniCHMNG2zO7bL9hhJ12ZToaLmlTs2Rhu6I7Xh0TTgLOAxvEAkAIT_GDI2GacCrIS7lmFHelHF_z97_lby2m9NxzmtN_AiUr5bbg4matMz2iEQedTn3dAalF8BiJBcoTaC60JA7fKzU6Po5w-QCyjLzsS7nZ6ju22s-q5AmX2yyaW8jfNVyYQuW3DPx_lVTAU7ruswkL4NTQ_7kxJVba-8X3tJXsJpUEVtM0VvpIiCEeSQMaF8ZtVwf9FIc-SnCg'
+#JWT_CAST_ASSISTANT = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjBRRmt5TjFCaFN4NzhoekxJOEJvMSJ9.eyJpc3MiOiJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjJkZDFlZTJlNTE4ZWJiNjc3NWViODVkIiwiYXVkIjpbImNhc3RpbmdhZ2VuY3kiLCJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU5MTcwMTk4LCJleHAiOjE2NTkyNTY1OTgsImF6cCI6ImJxYjdSTnJ5OWx4ajB1eGN1eHloTlVnU2RPdzlKVExEIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIl19.jaJDllfSsNOTWGivyhHAy524xk2PWB0rtVK6bdPhuG-fv2QrPUOAapSxJ0mGL4Af6BPGplj9jaDZ9kGyxI7wdgAMQcfqNKT1dms16FhbLrZq3iSSf3KIuAK1-RXDttFz90bk15tySFe_oyxoyBZgzOT6yzgSHnSLduPU1fD3gi7dVT4MOVy9XSzw6INsvZfK1Pxt6mFtq-55fRC652X9oLsgKefAj_F4MrAN4psOsq8HDFMGSH-yvvE5U_A9Dw0yoYXFMRMEXgAf_kyizc44L70vTBQHv8I0MnGI2SEaTNIftKW_6g8KvipsgzTT0zOtdd6Q7eLn4z2JEX93G_4jOg'
+#JWT_CAST_DIRECTOR = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjBRRmt5TjFCaFN4NzhoekxJOEJvMSJ9.eyJpc3MiOiJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjJlMmI4MWNlYTQ4Mzk4NzQyMmRlZTMyIiwiYXVkIjpbImNhc3RpbmdhZ2VuY3kiLCJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU5MTcwMjU0LCJleHAiOjE2NTkyNTY2NTQsImF6cCI6ImJxYjdSTnJ5OWx4ajB1eGN1eHloTlVnU2RPdzlKVExEIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInBvc3Q6YWN0b3JzIl19.DnptfnSdhCIe-uFbe50p1H7UHZVP4rHZIuXeLmEIsG9qgqwL4419R7dH8o_HDtLTn3IIKFPYmytnNwRBkaJmkr9SDFszH2bAbxfi5DQUyTAwT_J_xUuN_SGM00676G2gG7CEv8tjxxKUn1vmr0oBmb1k4FHd4QghRtgrtbLSk2X4JqFNqPT9ZxUMj8oG0ggmNeq6avYqsNj-I8kOpUD1nT1q8Z1svjsgQOlhP7t5-XT7QRXM0-1vHfhgB-dNL18bVtil1x_A53iMyOzSNNCVJYdgRZSc3-JB2eLqOaZOpBLzZcbYII2Dk3el_pZMtvV4ewKy-_w0AsdDs4YHJXU9kQ'
+#JWT_EXEC_PRODUCER = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjBRRmt5TjFCaFN4NzhoekxJOEJvMSJ9.eyJpc3MiOiJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjJlM2Y0ZmZiMzEwNzRjZTg0OGFkMjcxIiwiYXVkIjpbImNhc3RpbmdhZ2VuY3kiLCJodHRwczovL3NvbGF0ZS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU5MTA2NzIxLCJleHAiOjE2NTkxOTMxMjEsImF6cCI6ImJxYjdSTnJ5OWx4ajB1eGN1eHloTlVnU2RPdzlKVExEIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJwb3N0OmFjdG9ycyIsInBvc3Q6bW92aWVzIl19.DBEZN6vqkCv4W05fXkZFCEXVGQhj64aQV95mOZQoA2wVESS-xe-Pq0CJilhK_nILJGwca7wIbSLMCvFkFYpwJOsniCHMNG2zO7bL9hhJ12ZToaLmlTs2Rhu6I7Xh0TTgLOAxvEAkAIT_GDI2GacCrIS7lmFHelHF_z97_lby2m9NxzmtN_AiUr5bbg4matMz2iEQedTn3dAalF8BiJBcoTaC60JA7fKzU6Po5w-QCyjLzsS7nZ6ju22s-q5AmX2yyaW8jfNVyYQuW3DPx_lVTAU7ruswkL4NTQ_7kxJVba-8X3tJXsJpUEVtM0VvpIiCEeSQMaF8ZtVwf9FIc-SnCg'
 
 class CastingAgencyTestCase(unittest.TestCase):
 
@@ -57,7 +65,7 @@ class CastingAgencyTestCase(unittest.TestCase):
             movie.insert()
             '''
 
-            self.actor_test_id = 14
+            self.actor_test_id = 15
             self.actor_updated_test_id = self.actor_test_id + 1
 
             self.new_actor = {
@@ -72,7 +80,7 @@ class CastingAgencyTestCase(unittest.TestCase):
                 'gender': 'male'
             }
 
-            self.movie_test_id = 24
+            self.movie_test_id = 26
             self.movie_updated_test_id = self.movie_test_id + 1
 
             self.new_movie = {
@@ -92,7 +100,7 @@ class CastingAgencyTestCase(unittest.TestCase):
         res = self.client().get('/actors', headers=self.headers_cast_assistant)
         data = json.loads(res.data)
         self.assertTrue(data['list_actors'])
-        self.assertTrue(data['list_movies'])
+        self.assertTrue(data['actors_count'])
         self.assertEqual(res.status_code, 200)
 
     def test_get_actors_without_auth_header(self):
@@ -106,8 +114,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         res = self.client().get('/movies', headers=self.headers_cast_assistant)
         data = json.loads(res.data)
         #print('Movies:', data)
-        self.assertTrue(data)
         self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['list_movies'])
+        self.assertTrue(data['movies_count'])
 
     def test_get_movies_without_auth_header(self):
         res = self.client().get('/movies')
@@ -228,8 +237,10 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(data['description'], 'Authorization header is expected.')
 
     def test_delete_movie(self):
+        print('IN TEST DELETE MOVIE, VALUE OF ID:', self.movie_test_id)
         res = self.client().delete('/movies/' + str(self.movie_test_id), headers=self.headers_exec_producer)
         data = json.loads(res.data)
+        print('DATA SUCCESS', data['Success'])
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['Success'], True)
         self.assertEqual(data['movie_id'], self.movie_test_id)
