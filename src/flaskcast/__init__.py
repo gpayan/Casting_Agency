@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flaskcast.models import db
+from flask_cors import CORS
 
 app = Flask(__name__) #creates application object as an instance of class Flask
 
@@ -12,6 +13,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 migrate = Migrate(app, db)
+
+CORS(app)
 
 if __name__ == '__main__' :
     #context = ('local.crt', 'local.key')

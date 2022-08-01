@@ -38,7 +38,7 @@ subMovieButton.addEventListener('click', async (e) => {
 
     const responseMovie = await responseMovieObj.json();
 
-    if (responseMovie['Success'] == true) {
+    if (responseMovie['success'] == true) {
         window.alert('Movie added to the database');
     }
 
@@ -77,7 +77,7 @@ subActorButton.addEventListener('click', async (e) => {
 
     const responseActor = await responseActorObj.json();
 
-    if (responseActor['Success'] === true) {
+    if (responseActor['success'] === true) {
         window.alert('Actor added to the database');
     }
 
@@ -111,7 +111,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
             console.log('STATUS OF THE RESPONSE:', resultMovieObj.status);
             const resultMovie = await resultMovieObj.json();
             console.log('On a le resultat du DELETE', resultMovie);
-            if (resultMovie['Success'] === true){
+            if (resultMovie['success'] === true){
                 const movieToRemove = document.querySelector('div.movie-details[data-id="' + e.target.dataset.id + '"]');
                 movieToRemove.remove();
             }
@@ -175,7 +175,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
 
                     const respUpdate = await respUpdateObj.json();
 
-                    if(respUpdate['Success'] === true){
+                    if(respUpdate['success'] === true){
                         const updateMovieEntryDiv = document.querySelector('.update-movie-entry');
                         updateMovieEntryDiv.remove();
                     }
@@ -221,7 +221,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
             });
             const resultActor = await resultActorObj.json();
             console.log(resultActor);
-            if (resultActor['Success'] === true){
+            if (resultActor['success'] === true){
                 const actorToRemove = document.querySelector('div.actor-details[data-id="' + e.target.dataset.id + '"]');
                 actorToRemove.remove();
             }
@@ -292,7 +292,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
                     });
 
                     const respUpdate = await respUpdateObj.json();
-                    if(respUpdate['Success'] === true){
+                    if(respUpdate['success'] === true){
                         const updateEntryDiv = document.querySelector('.update-entry');
                         updateEntryDiv.remove();
                     }

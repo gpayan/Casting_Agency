@@ -8,7 +8,6 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-#DB_PATH = os.getenv('DB_PATH')
 #AUTH0 = os.getenv('AUTH0')
 #ALGORITHMS = os.getenv('ALGORITHMS')
 #API_AUDIENCE = os.getenv('API_AUDIENCE')
