@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath src casting_agency:app
+web: gunicorn src.flaskcast:app
