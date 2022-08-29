@@ -1,1 +1,1 @@
-web: gunicorn src.flaskcast:app
+web: gunicorn src.flaskcast
