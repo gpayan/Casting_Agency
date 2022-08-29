@@ -1,1 +1,1 @@
-web: gunicorn src.flaskcast
+web: gunicorn src.casting_agency:app
