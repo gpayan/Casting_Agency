@@ -1,1 +1,1 @@
-web: gunicorn src.casting_agency:app
+web: gunicorn --pythonpath src casting_agency:app
