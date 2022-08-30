@@ -1,1 +1,1 @@
-web: gunicorn src.casting_agency:app --log-file-
+web: gunicorn src.casting_agency:app
