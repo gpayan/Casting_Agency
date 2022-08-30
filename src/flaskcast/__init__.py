@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from .flaskcast.models import db
+#from flaskcast.models import db
+from .models import db
 from flask_cors import CORS
 
 app = Flask(__name__) #creates application object as an instance of class Flask
