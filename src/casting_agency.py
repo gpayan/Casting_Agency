@@ -1,4 +1,4 @@
-from flaskcast import app
+from .flaskcast import app
 
 print('Hello')
 
