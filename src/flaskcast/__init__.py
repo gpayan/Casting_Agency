@@ -26,4 +26,5 @@ else:
     print('Flaskcast is run by another module')
     print('name is:', __name__)
 
-from .flaskcast import routes, models #workaround to circular imports
+#from flaskcast import routes, models #workaround to circular imports
+from . import routes, models #trying to fix local module import issue on heroku
