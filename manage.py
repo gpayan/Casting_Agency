@@ -1,8 +1,8 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from src.flaskcast import app
-from src.flaskcast.models import db
+from src.casting_agency import app
+from src.flaskcast import db
 
 migrate = Migrate(app, db)
 manager = Manager(app)
