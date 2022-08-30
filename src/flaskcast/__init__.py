@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flaskcast.models import db
+from .flaskcast.models import db
 from flask_cors import CORS
 
 app = Flask(__name__) #creates application object as an instance of class Flask
@@ -25,4 +25,4 @@ else:
     print('Flaskcast is run by another module')
     print('name is:', __name__)
 
-from flaskcast import routes, models #workaround to circular imports
+from .flaskcast import routes, models #workaround to circular imports
