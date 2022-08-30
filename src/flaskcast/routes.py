@@ -1,9 +1,11 @@
 import os
-from flaskcast import app
-from flaskcast.models import Actor, Movie
+#from flaskcast import app
+from . import app #fix for Heroku deployment
+#from flaskcast.models import Actor, Movie
+from .models import Actor, Movie #fix for Heroku deployment
 from flask import request, render_template, jsonify, abort
-from flaskcast.auth import requires_auth, AuthError
-
+#from flaskcast.auth import requires_auth, AuthError
+from .auth import requires_auth, AuthError
 
 @app.route('/')
 @app.route('/index')
