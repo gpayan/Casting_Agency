@@ -313,7 +313,7 @@ createAuth0Client({
     client_id: CLIENT_ID,
     //redirect_uri: window.location.origin,
     //redirect_uri : "https://127.0.0.1:5000/index",
-    redirect_uri : "https://cast-agency-gpayan-udacity.herokuapp.com/",
+    redirect_uri : "https://cast-agency-gpayan-udacity.herokuapp.com",
     cacheLocation: 'localstorage',
     audience: 'castingagency'
 }).then(async (auth0) => {
