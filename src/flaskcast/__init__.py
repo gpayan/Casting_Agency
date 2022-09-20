@@ -8,7 +8,7 @@ from flask_cors import CORS
 app = Flask(__name__) #creates application object as an instance of class Flask
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://gpayan@localhost:5432/casting_agency'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://govrefbkmbfdki:596dd04fe1871334a64acc660708e06912d9256deddaaa21631c8eedff37e47d@ec2-3-208-79-113.compute-1.amazonaws.com:5432/d64sbt9u36jf0o'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://govrefbkmbfdki:596dd04fe1871334a64acc660708e06912d9256deddaaa21631c8eedff37e47d@ec2-3-208-79-113.compute-1.amazonaws.com:5432/d64sbt9u36jf0o'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #db = SQLAlchemy(app)
