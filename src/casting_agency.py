@@ -1,6 +1,7 @@
 from .flaskcast import app
 #from flaskcast import app
 
+app = app
 print('Hello')
 
 if __name__ == '__main__':
