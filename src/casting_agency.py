@@ -1,5 +1,5 @@
-#from .flaskcast import app
-from flaskcast import app
+from .flaskcast import app
+#from flaskcast import app
 
 #app = app
 print('Hello')
