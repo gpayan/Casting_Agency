@@ -40,6 +40,8 @@ subMovieButton.addEventListener('click', async (e) => {
 
     if (responseMovie['success'] == true) {
         window.alert('Movie added to the database');
+    } else {
+        console.log('Movie not added to the database', responseMovie);
     }
 
 });

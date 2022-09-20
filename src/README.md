@@ -182,11 +182,31 @@ The API will return 3 errors types when requests fail:
 
 ### Authorization
 
+We defined 3 roles - a 3 users (one user associated with each role):
+
+- Casting Assistant:
+    - Can view actors and movies
+    - User associated with the role: Brad Pitt:
+        - login: brad.pitt@gmail.com
+        - password: BradPitt123
+- Casting Director
+    - All permissions a Casting Assistant has
+    - Add or delete an actor from the database
+    - Modify actors or movies
+    - User associated with the role: George Clooney
+        - login: george.clooney@gmail.com
+        - password: GeorgeClooney123
+- Executive Producer:
+    - All permissions a Casting Director has
+    - Add or delete a movie from the database
+    - User associated with the role: Bruce Willis
+        - login: bruce.willis@gmail.com
+        - password: BruceWillis123
 
 ### Testing 
 To run the tests, run:
 ```
-dropbb casting_agency_test
+dropdb casting_agency_test
 createdb casting_agency_test
 psql casting_agency_test < casting_agency.psql
 python3 test_flaskcast.py
